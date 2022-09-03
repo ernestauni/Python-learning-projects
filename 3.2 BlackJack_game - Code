@@ -1,0 +1,85 @@
+""" Classic BlackJack hame"""
+
+import random
+from replit import clear
+from colorama import Fore
+from art import logo
+
+""" Function to draw random card"""
+def deal_card():
+  cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+  card=random.choice(cards)
+  return card
+
+""" Calculates the score, chech if computer got blackjack, change Ace value"""
+def calculate_score(cards):
+  if sum==21 and len(cards)==2:
+    return 0
+  if 11 in cards and sum(cards)>21:
+    cards.remove(11)
+    cards.append(1)
+  return sum(cards)
+
+""" Final result, determine who won"""
+def result(user_score,computer_score):
+  if user_score>21 and computer_score>21:
+     print(f"   {Fore.RED}You lost, you went over 21.")
+  elif user_score==computer_score:
+    print(f"  {Fore.YELLOW}It's a draw.")
+  elif computer_score==0:
+    print(f"   {Fore.RED}You lost, computer got a Blackjack.")
+  elif user_score==0:
+    print(f"   {Fore.GREEN}You won! You got Blackjack.")
+  elif user_score>21:
+    print(f"   {Fore.RED}You lost, you went over 21.")
+  elif computer_score>21:
+    print(f"   {Fore.GREEN}You won! Computer went over 21.")
+  elif user_score>computer_score:
+    print(f"   {Fore.GREEN} Congratulations, you won!")
+  else:
+    print(f"   {Fore.RED}You lost :(") 
+
+def new_game():
+  print(logo)
+  
+  user_cards=[]
+  computer_cards=[]
+  end_game=False
+  
+  """ Create a list of drawed cards"""
+  
+  for n in range(2):
+    user_cards.append(deal_card())
+    computer_cards.append(deal_card())
+  
+  """ While the game continues, to calculate score, print cards and ask user if he wants another card"""
+  while not end_game:
+    """ Calculates score - calling function """
+    user_score=calculate_score(user_cards)
+    computer_score=calculate_score(computer_cards)
+    
+    print(f"Your cards: {user_cards}. Current score: {user_score}")
+    print(f"Computer's first card: {computer_cards[0]}")
+    
+    if user_score==0 or computer_score==0 or user_score>21:
+      end_game=True
+    else:
+      user_another_card=input("Do you want to draw another card? Enter 'y' or 'n':  ")
+      if user_another_card=='y':
+        user_cards.append(deal_card())
+      else:
+        end_game=True
+  
+  """ To draw cards for computer if the score is below 17"""
+  while computer_score!=0 and computer_score<17:
+    computer_cards.append(deal_card())
+    computer_score=calculate_score(computer_cards)
+   
+  print(f"Your cards: {user_cards}. You final score: {user_score}.")
+  print(f"Computer cards: {computer_cards}. Computer's final score: {computer_score}.")
+  result(user_score,computer_score)
+  
+
+while input(f"{Fore.WHITE} Do you want to start a Blackjack game? y or n:  ")=='y':
+  clear()
+  new_game()

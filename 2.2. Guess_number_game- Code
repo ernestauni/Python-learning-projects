@@ -1,0 +1,53 @@
+import random 
+from art import logo
+
+EASY_GAME=10
+HARD_GAME=5
+
+
+"""Compare numbers for final result"""
+def compare(guess,answer,turns):
+  if guess>answer:
+    print("Too high")
+    return turns-1
+  elif guess<answer:
+    print("Too low")
+    return turns-1
+  else:
+    print("Congratulations, you got it right!")
+
+"""Set difficulty to set turns"""
+def difficulty():
+  level=input("Chose the difficulty by typing 'easy' or 'hard': ")
+  if level=='easy':
+    return EASY_GAME
+  if level=='hard':
+    return HARD_GAME
+  else:
+    print("Invalid input.")
+    
+
+"""Main game"""
+def game():
+  print(logo)
+  print("Welcome to the game Guess the number! ")
+  print("Hmmm... I am thinking of a number between 1 and 100.")
+  """Computer chose random number"""
+  answer=random.randint(1,100)
+  """Only for the check check"""
+  print(f"Computer selected: {answer}")
+  
+  turns=difficulty() 
+  
+  guess=0
+  
+  while guess!=answer: 
+    print(f"You have {turns} turns left.")
+    guess=int(input("Guess the number: "))
+    turns=compare(guess,answer,turns)
+    if turns==0:
+      print("You ran out of guesses :(")
+      return
+  
+    
+game()
