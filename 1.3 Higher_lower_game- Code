@@ -1,0 +1,66 @@
+# import data
+import random
+from replit import clear
+from art import logo, vs
+from game_data import data
+
+
+# generate a data selection
+def selection():
+  return random.choice(data)
+
+# format options
+def format_selection(account):
+  name=account["name"]
+  description=account["description"]
+  country=account["country"]
+  followers=account['follower_count']
+  return (f"{name}\n{description}\n{country}\n{followers}")
+
+# funcion to get answer
+def check_answer(followers_A, followers_B):
+  #followers_A=selection_A["follower_count"]
+  #followers_B=selection_B["follower_count"]
+  if followers_A>followers_B:
+    return "a"
+  else:
+    return "b"
+
+# main game function
+def game():
+  print(logo)
+  selection_A=selection()
+  selection_B=selection()
+  end_game=False
+  points=0
+  
+# loop to repeat while game continues
+  while not end_game:
+    print(f"A:  {format_selection(selection_A)}")
+    print(vs)
+    print(f"B:  {format_selection(selection_B)}")
+    # to select new if it is the same
+    if selection_A==selection_B:
+      selection_B=selection()
+    # let user guess
+    guess=input("\nWho has more followers? Make your guess by typing 'A' or 'B': ").lower()
+    followers_A=selection_A["follower_count"]
+    followers_B=selection_B["follower_count"]
+    if guess==check_answer(followers_A, followers_B):
+      points+=1
+      clear()
+      print(f"\nCorrect! Your current score: {points}\n")
+      if guess=="a":
+        selection_A=selection_B
+        selection_B=selection()
+        if selection_A==selection_B:
+          selection_B=selection()
+      else:
+        selection_B=selection()
+    else:
+      clear()
+      print(f"That is not correct. You got {points} points.")
+      end_game=True
+    
+
+game()
